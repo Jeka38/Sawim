@@ -94,7 +94,7 @@ public class SawimNotification {
         notificationIntent.setAction(SawimActivity.NOTIFY);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setLights(0xff00f200, 1000, 3000);
+        notification.setLights(0xff00ff00, 1000, 3000);
             if (Options.getBoolean(JLocale.getString(R.string.pref_vibration))) {
                     int dat = 70;
                     long[] pattern = {0,3 * dat, dat, dat};
