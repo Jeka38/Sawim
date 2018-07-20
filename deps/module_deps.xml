@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_deps" default="compile.module.deps">
+  <dirname property="module.deps.basedir" file="${ant.file.module_deps}"/>
+  
+  <property name="module.jdk.home.deps" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.deps" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.deps" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.deps" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="deps.output.dir" value="${module.deps.basedir}/../build/classes/production/deps"/>
+  <property name="deps.testoutput.dir" value="${module.deps.basedir}/../build/classes/test/deps"/>
+  
+  <path id="deps.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="deps.module.production.classpath">
+    <path refid="${module.jdk.classpath.deps}"/>
+  </path>
+  
+  <path id="deps.runtime.production.module.classpath">
+    <pathelement location="${deps.output.dir}"/>
+  </path>
+  
+  <path id="deps.module.classpath">
+    <path refid="${module.jdk.classpath.deps}"/>
+    <pathelement location="${deps.output.dir}"/>
+  </path>
+  
+  <path id="deps.runtime.module.classpath">
+    <pathelement location="${deps.testoutput.dir}"/>
+    <pathelement location="${deps.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.deps">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.deps">
+    <patternset refid="excluded.from.module.deps"/>
+  </patternset>
+  
+  
+  <target name="compile.module.deps" depends="compile.module.deps.production,compile.module.deps.tests" description="Compile module deps"/>
+  
+  <target name="compile.module.deps.production" depends="register.custom.compilers" description="Compile module deps; production classes"/>
+  
+  <target name="compile.module.deps.tests" depends="register.custom.compilers,compile.module.deps.production" description="compile module deps; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.deps" description="cleanup module">
+    <delete dir="${deps.output.dir}"/>
+    <delete dir="${deps.testoutput.dir}"/>
+  </target>
+</project>

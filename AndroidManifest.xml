@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="ru.sawim"
+          android:installLocation="auto">
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true"
+                      android:anyDensity="true"/>
+
+    <application android:label="@string/app_name"
+                 tools:replace="label"
+                 android:icon="@drawable/ic_launcher"
+                 android:name=".SawimApplication">
+        <activity android:name=".activities.SawimActivity"
+                  android:label="@string/app_name"
+                  android:theme="@style/BaseTheme"
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.OpenUriActivity"
+                  android:theme="@style/BaseTheme"
+                  android:label="@string/app_name"
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="standard">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="xmpp"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".modules.photo.CameraActivity"
+                  android:theme="@style/BaseTheme"
+                  android:label="@string/app_name"
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:launchMode="standard">
+        </activity>
+        <activity android:name=".activities.MainPreferenceActivity"
+                  android:theme="@style/BaseTheme"
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                  android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".activities.AccountsListActivity"
+                  android:theme="@style/BaseTheme"
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".activities.EmptyActivity"/>
+        <activity android:name="de.duenndns.ssl.MemorizingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <service android:enabled="true" android:name=".service.SawimService" android:stopWithTask="true"/>
+        <provider
+                android:name=".io.SawimProvider"
+                android:authorities="ru.sawim.contentprovider" >
+        </provider>
+    </application>
+</manifest>

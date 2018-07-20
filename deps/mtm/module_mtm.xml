@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mtm" default="compile.module.mtm">
+  <dirname property="module.mtm.basedir" file="${ant.file.module_mtm}"/>
+  
+  <property name="module.jdk.home.mtm" value="${jdk.home.android_api_21_platform}"/>
+  <property name="module.jdk.bin.mtm" value="${jdk.bin.android_api_21_platform}"/>
+  <property name="module.jdk.classpath.mtm" value="jdk.classpath.android_api_21_platform"/>
+  
+  <property name="compiler.args.mtm" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="mtm.output.dir" value="${module.mtm.basedir}/build/intermediates/classes/debug"/>
+  <property name="mtm.testoutput.dir" value="${module.mtm.basedir}/build/intermediates/classes/test/debug"/>
+  
+  <path id="mtm.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mtm.module.production.classpath">
+    <path refid="${module.jdk.classpath.mtm}"/>
+  </path>
+  
+  <path id="mtm.runtime.production.module.classpath">
+    <pathelement location="${mtm.output.dir}"/>
+  </path>
+  
+  <path id="mtm.module.classpath">
+    <path refid="${module.jdk.classpath.mtm}"/>
+    <pathelement location="${mtm.output.dir}"/>
+  </path>
+  
+  <path id="mtm.runtime.module.classpath">
+    <pathelement location="${mtm.testoutput.dir}"/>
+    <pathelement location="${mtm.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mtm">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mtm">
+    <patternset refid="excluded.from.module.mtm"/>
+  </patternset>
+  
+  <path id="mtm.module.sourcepath">
+    <dirset dir="${module.mtm.basedir}">
+      <include name="build/generated/source/r/debug"/>
+      <include name="build/generated/source/aidl/debug"/>
+      <include name="build/generated/source/buildConfig/debug"/>
+      <include name="build/generated/source/rs/debug"/>
+      <include name="build/generated/res/rs/debug"/>
+      <include name="build/generated/res/resValues/debug"/>
+      <include name="res"/>
+      <include name="src"/>
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="mtm.module.test.sourcepath">
+    <dirset dir="${module.mtm.basedir}">
+      <include name="build/generated/source/r/androidTest/debug"/>
+      <include name="build/generated/source/aidl/androidTest/debug"/>
+      <include name="build/generated/source/buildConfig/androidTest/debug"/>
+      <include name="build/generated/source/rs/androidTest/debug"/>
+      <include name="build/generated/res/rs/androidTest/debug"/>
+      <include name="build/generated/res/resValues/androidTest/debug"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mtm" depends="compile.module.mtm.production,compile.module.mtm.tests" description="Compile module mtm"/>
+  
+  <target name="compile.module.mtm.production" depends="register.custom.compilers" description="Compile module mtm; production classes">
+    <mkdir dir="${mtm.output.dir}"/>
+    <javac2 destdir="${mtm.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mtm}/javac">
+      <compilerarg line="${compiler.args.mtm}"/>
+      <bootclasspath refid="mtm.module.bootclasspath"/>
+      <classpath refid="mtm.module.production.classpath"/>
+      <src refid="mtm.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mtm"/>
+    </javac2>
+    
+    <copy todir="${mtm.output.dir}">
+      <fileset dir="${module.mtm.basedir}/build/generated/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/res/resValues/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mtm.tests" depends="register.custom.compilers,compile.module.mtm.production" description="compile module mtm; test classes" unless="skip.tests">
+    <mkdir dir="${mtm.testoutput.dir}"/>
+    <javac2 destdir="${mtm.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mtm}/javac">
+      <compilerarg line="${compiler.args.mtm}"/>
+      <bootclasspath refid="mtm.module.bootclasspath"/>
+      <classpath refid="mtm.module.classpath"/>
+      <src refid="mtm.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mtm"/>
+    </javac2>
+    
+    <copy todir="${mtm.testoutput.dir}">
+      <fileset dir="${module.mtm.basedir}/build/generated/source/r/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/source/aidl/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/source/buildConfig/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/source/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/res/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mtm.basedir}/build/generated/res/resValues/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.mtm" description="cleanup module">
+    <delete dir="${mtm.output.dir}"/>
+    <delete dir="${mtm.testoutput.dir}"/>
+  </target>
+</project>

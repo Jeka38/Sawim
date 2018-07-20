@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_sawimne" default="compile.module.sawimne">
+  <dirname property="module.sawimne.basedir" file="${ant.file.module_sawimne}"/>
+  
+  <property name="module.jdk.home.sawimne" value="${jdk.home.android_api_21_platform}"/>
+  <property name="module.jdk.bin.sawimne" value="${jdk.bin.android_api_21_platform}"/>
+  <property name="module.jdk.classpath.sawimne" value="jdk.classpath.android_api_21_platform"/>
+  
+  <property name="compiler.args.sawimne" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="sawimne.output.dir" value="${module.sawimne.basedir}/build/intermediates/classes/debug"/>
+  <property name="sawimne.testoutput.dir" value="${module.sawimne.basedir}/build/intermediates/classes/test/debug"/>
+  
+  <path id="sawimne.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="sawimne.module.production.classpath">
+    <path refid="${module.jdk.classpath.sawimne}"/>
+    <path refid="library.okio-1.9.0.classpath"/>
+    <path refid="library.library-2.4.1.classpath"/>
+    <path refid="library.okhttp-3.4.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.3.classpath"/>
+    <path refid="library.support-annotations-22.1.1.classpath"/>
+    <path refid="library.support-v4-22.1.1.classpath"/>
+    <path refid="library.glide-3.7.0.classpath"/>
+    <path refid="library.appcompat-v7-22.1.1.classpath"/>
+    <pathelement location="${mtm.output.dir}"/>
+  </path>
+  
+  <path id="sawimne.runtime.production.module.classpath">
+    <pathelement location="${sawimne.output.dir}"/>
+    <path refid="library.okio-1.9.0.classpath"/>
+    <path refid="library.library-2.4.1.classpath"/>
+    <path refid="library.okhttp-3.4.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.3.classpath"/>
+    <path refid="library.support-annotations-22.1.1.classpath"/>
+    <path refid="library.support-v4-22.1.1.classpath"/>
+    <path refid="library.glide-3.7.0.classpath"/>
+    <path refid="library.appcompat-v7-22.1.1.classpath"/>
+    <path refid="mtm.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="sawimne.module.classpath">
+    <path refid="${module.jdk.classpath.sawimne}"/>
+    <pathelement location="${sawimne.output.dir}"/>
+    <path refid="library.okio-1.9.0.classpath"/>
+    <path refid="library.library-2.4.1.classpath"/>
+    <path refid="library.okhttp-3.4.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.3.classpath"/>
+    <path refid="library.support-annotations-22.1.1.classpath"/>
+    <path refid="library.support-v4-22.1.1.classpath"/>
+    <path refid="library.glide-3.7.0.classpath"/>
+    <path refid="library.appcompat-v7-22.1.1.classpath"/>
+    <pathelement location="${mtm.testoutput.dir}"/>
+    <pathelement location="${mtm.output.dir}"/>
+  </path>
+  
+  <path id="sawimne.runtime.module.classpath">
+    <pathelement location="${sawimne.testoutput.dir}"/>
+    <pathelement location="${sawimne.output.dir}"/>
+    <path refid="library.okio-1.9.0.classpath"/>
+    <path refid="library.library-2.4.1.classpath"/>
+    <path refid="library.okhttp-3.4.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.3.classpath"/>
+    <path refid="library.support-annotations-22.1.1.classpath"/>
+    <path refid="library.support-v4-22.1.1.classpath"/>
+    <path refid="library.glide-3.7.0.classpath"/>
+    <path refid="library.appcompat-v7-22.1.1.classpath"/>
+    <path refid="mtm.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.sawimne">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.sawimne">
+    <patternset refid="excluded.from.module.sawimne"/>
+  </patternset>
+  
+  <path id="sawimne.module.sourcepath">
+    <dirset dir="${module.sawimne.basedir}">
+      <include name="build/generated/source/r/debug"/>
+      <include name="build/generated/source/aidl/debug"/>
+      <include name="build/generated/source/buildConfig/debug"/>
+      <include name="build/generated/source/rs/debug"/>
+      <include name="build/generated/source/apt/debug"/>
+      <include name="build/generated/res/rs/debug"/>
+      <include name="build/generated/res/resValues/debug"/>
+      <include name="res"/>
+      <include name="assets"/>
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="sawimne.module.test.sourcepath">
+    <dirset dir="${module.sawimne.basedir}">
+      <include name="build/generated/source/r/androidTest/debug"/>
+      <include name="build/generated/source/aidl/androidTest/debug"/>
+      <include name="build/generated/source/buildConfig/androidTest/debug"/>
+      <include name="build/generated/source/rs/androidTest/debug"/>
+      <include name="build/generated/res/rs/androidTest/debug"/>
+      <include name="build/generated/res/resValues/androidTest/debug"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.sawimne" depends="compile.module.sawimne.production,compile.module.sawimne.tests" description="Compile module sawimNE"/>
+  
+  <target name="compile.module.sawimne.production" depends="register.custom.compilers,compile.module.mtm" description="Compile module sawimNE; production classes">
+    <mkdir dir="${sawimne.output.dir}"/>
+    <javac2 destdir="${sawimne.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.sawimne}/javac">
+      <compilerarg line="${compiler.args.sawimne}"/>
+      <bootclasspath refid="sawimne.module.bootclasspath"/>
+      <classpath refid="sawimne.module.production.classpath"/>
+      <src refid="sawimne.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.sawimne"/>
+    </javac2>
+    
+    <copy todir="${sawimne.output.dir}">
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/apt/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/res/resValues/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/assets">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.sawimne.tests" depends="register.custom.compilers,compile.module.sawimne.production" description="compile module sawimNE; test classes" unless="skip.tests">
+    <mkdir dir="${sawimne.testoutput.dir}"/>
+    <javac2 destdir="${sawimne.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.sawimne}/javac">
+      <compilerarg line="${compiler.args.sawimne}"/>
+      <bootclasspath refid="sawimne.module.bootclasspath"/>
+      <classpath refid="sawimne.module.classpath"/>
+      <src refid="sawimne.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.sawimne"/>
+    </javac2>
+    
+    <copy todir="${sawimne.testoutput.dir}">
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/r/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/aidl/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/buildConfig/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/source/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/res/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.sawimne.basedir}/build/generated/res/resValues/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.sawimne" description="cleanup module">
+    <delete dir="${sawimne.output.dir}"/>
+    <delete dir="${sawimne.testoutput.dir}"/>
+  </target>
+</project>

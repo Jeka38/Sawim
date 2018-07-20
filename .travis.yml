@@ -1,0 +1,23 @@
+language: android
+android:
+  components:
+    - build-tools-21.1.1
+    - build-tools-19.1.0
+    - android-19
+    - sysimg-19
+    - extra-google-m2repository
+    - extra-android-m2repository
+  licenses:
+    - android-sdk-license-bcbbd656
+    - android-sdk-license-5be876d5
+    - '.*intel.+'
+
+#notifications:
+#  email: false
+
+before_install:
+  # Fix Gradle output
+  - export TERM=dumb
+
+script:
+  - ./gradlew check
