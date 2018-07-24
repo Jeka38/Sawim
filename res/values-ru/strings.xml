@@ -84,9 +84,9 @@
     <string name="quote">Цитировать</string>
 
     <string name="group_not_in_list">Not in list</string>
-    <string name="group_general">General</string>
-    <string name="group_conferences">Conferences</string>
-    <string name="group_transports">Transports</string>
+    <string name="group_general">Общий</string>
+    <string name="group_conferences">Конференции</string>
+    <string name="group_transports">Транспорты</string>
 
     <string name="contact_list">Контакт-лист</string>
     <string name="remove">Удалить</string>
